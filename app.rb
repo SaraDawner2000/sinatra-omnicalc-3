@@ -1,5 +1,6 @@
 require "sinatra"
 require "sinatra/reloader"
+require "sinatra/cookies"
 require "http"
 require "json"
 
@@ -42,7 +43,13 @@ post("/process_umbrella") do
       @any_precipitation = true
     end
   end
+
+  cookies["last_loc"] = @user_loc
+  cookies["last_lat"] = @latitude
+  cookies["last_long"] = @longitude
+
   erb(:process_umbrella)
+
 end
 
 
@@ -51,6 +58,7 @@ get("/message") do
 end
 
 post("/process_single_message") do
+  @message = params[:user_input]
   erb(:process_single_message)
 end
 
