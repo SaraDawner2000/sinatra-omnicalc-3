@@ -19,8 +19,8 @@ get("/message") do
   erb(:message)
 end
 
-get("/process_message") do
-  erb(:process_message)
+get("/process_single_message") do
+  erb(:process_single_message)
 end
 
 
