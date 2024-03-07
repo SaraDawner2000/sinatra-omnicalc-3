@@ -1,0 +1,14 @@
+<% $saved_messages_array.each do |convo| %>
+  <dt>user</dt>
+  <dd><%= convo[:user] %>
+  <dt>assistant</dt>
+  <dd><%= convo[:assistant] %>
+<% end %>
+<p></p>
+<form action = "/chat" method = "post">
+<label for = "your_message">You: </label>
+<input id = "your_message_id" type = "text" name = "your_message" placeholder = "Enter a message....">
+<button>Send</button>
+</form>
+<hr class="solid">
+<form action = "/chat"><button>Clear chat history</button></form>

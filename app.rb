@@ -85,12 +85,48 @@ post("/process_single_message") do
     :body => request_body_json
   ).to_s
 
-  @parsed_response = JSON.parse(raw_response)
-    
+  parsed_response = JSON.parse(raw_response)
+  @chat_response = parsed_response["choices"][0]["message"]["content"]
   erb(:process_single_message)
 end
 
 
 post("/chat") do
+  @message = params[:your_message]
+  request_headers_hash = {
+    "Authorization" => "Bearer #{ENV.fetch("GPT_KEY")}",
+    "content-type" => "application/json"
+  }
+
+  request_body_hash = {
+    "model" => "gpt-3.5-turbo",
+    "messages" => [
+      {
+        "role" => "system",
+        "content" => "You are a helpful assistant who talks like a robot from Aizek Asimov's books."
+      },
+      {
+        "role" => "user",
+        "content" => @message
+      }
+    ]
+  }
+
+  request_body_json = JSON.generate(request_body_hash)
+
+  raw_response = HTTP.headers(request_headers_hash).post(
+    "https://api.openai.com/v1/chat/completions",
+    :body => request_body_json
+  ).to_s
+
+  parsed_response = JSON.parse(raw_response)
+  @chat_response = parsed_response["choices"][0]["message"]["content"]
+  $saved_messages_array.append({:user => @message, :assistant => @chat_response})
+  erb(:chat)
+end
+
+
+get("/chat") do
+  $saved_messages_array = []
   erb(:chat)
 end
