@@ -69,7 +69,7 @@ post("/process_single_message") do
     "messages" => [
       {
         "role" => "system",
-        "content" => "You are a helpful assistant who talks like a robot from Aizek Asimov's books."
+        "content" => "You are a helpful assistant."
       },
       {
         "role" => "user",
@@ -103,7 +103,7 @@ post("/chat") do
     "messages" => [
       {
         "role" => "system",
-        "content" => "You are a helpful assistant who talks like a robot from Aizek Asimov's books."
+        "content" => "You are a helpful assistant."
       },
       {
         "role" => "user",
